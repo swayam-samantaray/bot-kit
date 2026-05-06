@@ -1,0 +1,6 @@
+@bot_kit_HostAddress = http://localhost:5122
+
+GET {{bot_kit_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
