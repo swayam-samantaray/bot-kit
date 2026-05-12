@@ -19,7 +19,7 @@ namespace bot_kit.Infrastructure.Ollama
         {
             var request = new
             {
-                model = "qwen2.5:7b", // make configurable later
+                model = "qwen2.5:7b", // make configurable later : "qwen2.5:7b"
                 prompt = prompt,
                 stream = false
             };

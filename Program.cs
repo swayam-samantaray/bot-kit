@@ -33,6 +33,8 @@ builder.Services.AddScoped<IBotFactory, BotFactory>();
 
 builder.Services.AddScoped<IBot, HelpBot>();
 
+builder.Services.AddScoped<IBot, PromptBot>();
+
 // Future:
 // builder.Services.AddScoped<IBot, MessageBot>();
 
