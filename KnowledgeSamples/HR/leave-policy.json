@@ -1,0 +1,75 @@
+{
+  "department": "HR",
+  "category": "Policy",
+  "title": "Employee Leave Policy",
+  "version": "1.0",
+  "effectiveDate": "2026-01-01",
+  "tags": ["leave", "attendance", "approval", "employee"],
+  "metadata": {
+    "owner": "Human Resources",
+    "reviewCycle": "Annual",
+    "appliesTo": "Full-time employees"
+  },
+  "entities": [
+    {
+      "name": "Employee",
+      "type": "ROLE",
+      "aliases": ["staff", "associate"]
+    },
+    {
+      "name": "Reporting Manager",
+      "type": "ROLE",
+      "aliases": ["manager", "line manager"]
+    },
+    {
+      "name": "HR Business Partner",
+      "type": "ROLE",
+      "aliases": ["HRBP"]
+    },
+    {
+      "name": "Annual Leave",
+      "type": "POLICY_CONCEPT",
+      "aliases": ["earned leave", "planned leave"]
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Employee",
+      "type": "REQUESTS",
+      "target": "Annual Leave",
+      "confidenceScore": 1
+    },
+    {
+      "source": "Reporting Manager",
+      "type": "APPROVES",
+      "target": "Annual Leave",
+      "confidenceScore": 1
+    },
+    {
+      "source": "HR Business Partner",
+      "type": "RESOLVES_EXCEPTIONS_FOR",
+      "target": "Annual Leave",
+      "confidenceScore": 0.9
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Eligibility",
+      "tags": ["eligibility", "employee"],
+      "entities": ["Employee", "Annual Leave"],
+      "content": "Full-time employees are eligible for annual leave after completing 30 calendar days of service. Contractors and temporary staff are not covered by this policy unless their contract explicitly includes leave benefits."
+    },
+    {
+      "heading": "Approval Workflow",
+      "tags": ["approval", "workflow"],
+      "entities": ["Employee", "Reporting Manager", "HR Business Partner", "Annual Leave"],
+      "content": "Employees must submit annual leave requests at least five working days before the planned leave date. The reporting manager is the primary approver. If the leave request is an exception or conflicts with a blackout period, the HR Business Partner reviews and resolves the exception."
+    },
+    {
+      "heading": "Carry Forward",
+      "tags": ["carry forward", "balance"],
+      "entities": ["Employee", "Annual Leave"],
+      "content": "Employees may carry forward up to five unused annual leave days into the next calendar year. Any balance above five days expires unless a written exception is approved by HR."
+    }
+  ]
+}

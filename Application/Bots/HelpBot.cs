@@ -48,11 +48,11 @@ namespace bot_kit.Application.Bots
                             m.RelationshipType))
                         {
                             return
-                                $"{m.EntityName} -> {m.RelationshipType} -> {m.RelatedEntityName}";
+                                $"[{m.Department} / {m.DocumentTitle}] {m.EntityName} -> {m.RelationshipType} -> {m.RelatedEntityName}";
                         }
 
                         return
-                            $"{m.EntityType}: {m.EntityName}";
+                            $"[{m.Department} / {m.DocumentTitle}] {m.EntityType}: {m.EntityName}";
                     }));
 
             Console.WriteLine(
@@ -109,7 +109,13 @@ namespace bot_kit.Application.Bots
                     filtered.Select(c =>
                         $"""
                         [Document: {c.DocumentName}]
+                        [Department: {c.Department}]
+                        [Category: {c.Category}]
+                        [Title: {c.Title}]
+                        [Section: {c.SectionHeading}]
                         [Chunk: {c.ChunkIndex}]
+                        [Tags: {string.Join(", ", c.Tags)}]
+                        [Entities: {string.Join(", ", c.EntityNames)}]
                         
                         {c.Content}
                         """));
@@ -146,10 +152,20 @@ namespace bot_kit.Application.Bots
             // GENERATE RESPONSE
             // =====================================================
 
-            var result =
-                await _ollamaService.GenerateAsync(
-                    prompt,
-                    cancellationToken);
+            string result;
+
+            try
+            {
+                result =
+                    await _ollamaService.GenerateAsync(
+                        prompt,
+                        cancellationToken);
+            }
+            catch (HttpRequestException ex)
+            {
+                result =
+                    $"LLM generation failed. Retrieved context is available, but Ollama returned an error: {ex.Message}";
+            }
 
             // =====================================================
             // RETURN RESPONSE

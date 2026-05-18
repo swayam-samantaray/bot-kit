@@ -6,6 +6,7 @@ using bot_kit.Domain.Entities;
 using Dapper;
 
 using Npgsql;
+using System.Text.Json;
 
 namespace bot_kit.Infrastructure.Knowledge
 {
@@ -85,6 +86,96 @@ VALUES
             {
                 Console.WriteLine(
                     $"[ENTITY EXTRACTION ERROR] {ex.Message}");
+            }
+        }
+
+        public async Task StoreStructuredAsync(
+            Guid documentId,
+            StructuredKnowledgeDocument document)
+        {
+            try
+            {
+                await using var connection =
+                    await _dataSource.OpenConnectionAsync();
+
+                var entityMap =
+                    new Dictionary<string, Guid>(
+                        StringComparer.OrdinalIgnoreCase);
+
+                var entitySql = @"
+INSERT INTO entities
+(
+    entity_id,
+    document_id,
+    entity_name,
+    entity_type,
+    normalized_name,
+    aliases,
+    metadata
+)
+VALUES
+(
+    @Id,
+    @DocumentId,
+    @EntityName,
+    @EntityType,
+    @NormalizedName,
+    @Aliases::jsonb,
+    @Metadata::jsonb
+);";
+
+                foreach (var structuredEntity in document.Entities)
+                {
+                    if (string.IsNullOrWhiteSpace(structuredEntity.Name))
+                    {
+                        continue;
+                    }
+
+                    var entity =
+                        new ExtractedEntity
+                        {
+                            Id = Guid.NewGuid(),
+                            DocumentId = documentId,
+                            EntityName = structuredEntity.Name,
+                            EntityType = string.IsNullOrWhiteSpace(structuredEntity.Type)
+                                ? "UNKNOWN"
+                                : structuredEntity.Type.ToUpperInvariant(),
+                            NormalizedName = NormalizeEntityName(structuredEntity.Name),
+                            Aliases = structuredEntity.Aliases,
+                            MetadataJson = JsonSerializer.Serialize(structuredEntity.Metadata)
+                        };
+
+                    await connection.ExecuteAsync(
+                        entitySql,
+                        new
+                        {
+                            entity.Id,
+                            entity.DocumentId,
+                            entity.EntityName,
+                            entity.EntityType,
+                            entity.NormalizedName,
+                            Aliases = JsonSerializer.Serialize(entity.Aliases),
+                            Metadata = entity.MetadataJson
+                        });
+
+                    entityMap[entity.NormalizedName] = entity.Id;
+
+                    foreach (var alias in entity.Aliases)
+                    {
+                        entityMap[NormalizeEntityName(alias)] = entity.Id;
+                    }
+
+                    Console.WriteLine($"[ENTITY STORED] {entity.EntityName} ({entity.EntityType})");
+                }
+
+                await StoreRelationshipsAsync(
+                    connection,
+                    entityMap,
+                    document.Relationships);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[STRUCTURED ENTITY STORAGE ERROR] {ex.Message}");
             }
         }
 
@@ -311,6 +402,62 @@ VALUES
                 " ");
 
             return input.Trim();
+        }
+
+        private async Task StoreRelationshipsAsync(
+            NpgsqlConnection connection,
+            Dictionary<string, Guid> entityMap,
+            List<StructuredRelationship> relationships)
+        {
+            var relationshipSql = @"
+INSERT INTO entity_relationships
+(
+    relationship_id,
+    source_entity_id,
+    target_entity_id,
+    relationship_type,
+    confidence_score
+)
+VALUES
+(
+    @Id,
+    @SourceEntityId,
+    @TargetEntityId,
+    @RelationshipType,
+    @ConfidenceScore
+);";
+
+            foreach (var relationship in relationships)
+            {
+                var sourceKey =
+                    NormalizeEntityName(relationship.Source);
+
+                var targetKey =
+                    NormalizeEntityName(relationship.Target);
+
+                if (!entityMap.TryGetValue(sourceKey, out var sourceEntityId)
+                    || !entityMap.TryGetValue(targetKey, out var targetEntityId))
+                {
+                    Console.WriteLine(
+                        $"[RELATIONSHIP SKIPPED] {relationship.Source} -> {relationship.Type} -> {relationship.Target}");
+
+                    continue;
+                }
+
+                await connection.ExecuteAsync(
+                    relationshipSql,
+                    new
+                    {
+                        Id = Guid.NewGuid(),
+                        SourceEntityId = sourceEntityId,
+                        TargetEntityId = targetEntityId,
+                        RelationshipType = relationship.Type.ToUpperInvariant(),
+                        relationship.ConfidenceScore
+                    });
+
+                Console.WriteLine(
+                    $"[RELATIONSHIP STORED] {relationship.Source} -> {relationship.Type} -> {relationship.Target}");
+            }
         }
 
 

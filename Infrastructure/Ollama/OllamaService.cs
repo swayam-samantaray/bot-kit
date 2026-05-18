@@ -19,7 +19,7 @@ namespace bot_kit.Infrastructure.Ollama
         {
             var request = new
             {
-                model = "qwen2.5:7b", // make configurable later : "qwen2.5:7b"
+                model = "qwen2.5:7b", // make configurable later
                 prompt = prompt,
                 stream = false
             };
@@ -30,9 +30,16 @@ namespace bot_kit.Infrastructure.Ollama
                 cancellationToken
             );
 
-            response.EnsureSuccessStatusCode();
-
             var json = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"[OLLAMA ERROR] Status: {(int)response.StatusCode}");
+                Console.WriteLine(json);
+
+                throw new HttpRequestException(
+                    $"Ollama generate failed with status {(int)response.StatusCode}: {json}");
+            }
 
             using var doc = JsonDocument.Parse(json);
 

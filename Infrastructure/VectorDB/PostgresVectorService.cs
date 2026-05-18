@@ -6,6 +6,8 @@ using Dapper;
 using Npgsql;
 
 using Pgvector;
+using System.Text.RegularExpressions;
+using System.Text.Json;
 
 namespace bot_kit.Infrastructure.VectorDB
 {
@@ -69,6 +71,13 @@ INSERT INTO document_chunks
     document_id,
     chunk_index,
     chunk_content,
+    department,
+    category,
+    title,
+    section_heading,
+    tags,
+    entity_names,
+    metadata,
     embedding,
     token_count
 )
@@ -77,6 +86,13 @@ VALUES
     @DocumentId,
     @ChunkIndex,
     @ChunkContent,
+    @Department,
+    @Category,
+    @Title,
+    @SectionHeading,
+    @Tags,
+    @EntityNames,
+    @Metadata::jsonb,
     @Embedding,
     @TokenCount
 );";
@@ -90,6 +106,25 @@ VALUES
                             ChunkIndex = chunk.ChunkIndex,
 
                             ChunkContent = chunk.Content,
+
+                            chunk.Department,
+
+                            chunk.Category,
+
+                            chunk.Title,
+
+                            chunk.SectionHeading,
+
+                            Tags =
+                                chunk.Tags.ToArray(),
+
+                            EntityNames =
+                                chunk.EntityNames.ToArray(),
+
+                            Metadata =
+                                string.IsNullOrWhiteSpace(chunk.MetadataJson)
+                                    ? "{}"
+                                    : chunk.MetadataJson,
 
                             Embedding = vector,
 
@@ -132,6 +167,9 @@ VALUES
                 var normalizedKeyword =
                     NormalizeQuery(query);
 
+                var searchTerms =
+                    BuildSearchTerms(normalizedKeyword);
+
                 Console.WriteLine(
                     $"Original Query: {query}");
 
@@ -168,12 +206,44 @@ SELECT
     dc.document_id,
     dc.chunk_index,
     dc.chunk_content,
-    dc.embedding <=> @Embedding AS distance,
+    dc.department,
+    dc.category,
+    dc.title,
+    dc.section_heading,
+    dc.tags,
+    dc.entity_names,
+    (
+        (dc.embedding <=> @Embedding)
+        - CASE
+            WHEN LOWER(COALESCE(dc.department, '')) LIKE LOWER(@Keyword) THEN 0.12::double precision
+            WHEN LOWER(COALESCE(dc.title, '')) LIKE LOWER(@Keyword) THEN 0.10::double precision
+            WHEN LOWER(COALESCE(dc.category, '')) LIKE LOWER(@Keyword) THEN 0.08::double precision
+            WHEN LOWER(COALESCE(dc.section_heading, '')) LIKE LOWER(@Keyword) THEN 0.08::double precision
+            WHEN LOWER(COALESCE(array_to_string(dc.tags, ' '), '')) LIKE LOWER(@Keyword) THEN 0.08::double precision
+            WHEN LOWER(COALESCE(array_to_string(dc.entity_names, ' '), '')) LIKE LOWER(@Keyword) THEN 0.08::double precision
+            WHEN EXISTS (
+                SELECT 1
+                FROM unnest(@SearchTerms::text[]) AS term
+                WHERE LOWER(
+                    CONCAT_WS(
+                        ' ',
+                        dc.department,
+                        dc.category,
+                        dc.title,
+                        dc.section_heading,
+                        array_to_string(dc.tags, ' '),
+                        array_to_string(dc.entity_names, ' ')
+                    )
+                ) LIKE '%' || LOWER(term) || '%'
+            ) THEN 0.06::double precision
+            ELSE 0::double precision
+          END
+    ) AS distance,
     d.file_name
 FROM document_chunks dc
 INNER JOIN documents d
     ON d.document_id = dc.document_id
-ORDER BY dc.embedding <=> @Embedding
+ORDER BY distance
 LIMIT @TopK;
 ";
 
@@ -183,6 +253,8 @@ LIMIT @TopK;
                         new
                         {
                             Embedding = vector,
+                            Keyword = $"%{normalizedKeyword}%",
+                            SearchTerms = searchTerms,
                             TopK = topK
                         }))
                     .ToList();
@@ -200,13 +272,48 @@ SELECT
     dc.document_id,
     dc.chunk_index,
     dc.chunk_content,
+    dc.department,
+    dc.category,
+    dc.title,
+    dc.section_heading,
+    dc.tags,
+    dc.entity_names,
     0.15 AS distance,
     d.file_name
 FROM document_chunks dc
 INNER JOIN documents d
     ON d.document_id = dc.document_id
-WHERE LOWER(dc.chunk_content)
-LIKE LOWER(@Keyword)
+WHERE
+    LOWER(dc.chunk_content) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(dc.department, '')) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(dc.category, '')) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(dc.title, '')) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(dc.section_heading, '')) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(array_to_string(dc.tags, ' '), '')) LIKE LOWER(@Keyword)
+OR
+    LOWER(COALESCE(array_to_string(dc.entity_names, ' '), '')) LIKE LOWER(@Keyword)
+OR
+    EXISTS (
+        SELECT 1
+        FROM unnest(@SearchTerms::text[]) AS term
+        WHERE LOWER(
+            CONCAT_WS(
+                ' ',
+                dc.chunk_content,
+                dc.department,
+                dc.category,
+                dc.title,
+                dc.section_heading,
+                array_to_string(dc.tags, ' '),
+                array_to_string(dc.entity_names, ' ')
+            )
+        ) LIKE '%' || LOWER(term) || '%'
+    )
 LIMIT @TopK;
 ";
 
@@ -217,6 +324,7 @@ LIMIT @TopK;
                         {
                             Keyword =
                                 $"%{normalizedKeyword}%",
+                            SearchTerms = searchTerms,
                             TopK = topK
                         }))
                     .ToList();
@@ -262,6 +370,24 @@ LIMIT @TopK;
 
                         DocumentName =
                             row.file_name,
+
+                        Department =
+                            row.department ?? string.Empty,
+
+                        Category =
+                            row.category ?? string.Empty,
+
+                        Title =
+                            row.title ?? string.Empty,
+
+                        SectionHeading =
+                            row.section_heading ?? string.Empty,
+
+                        Tags =
+                            ReadStringList(row.tags),
+
+                        EntityNames =
+                            ReadStringList(row.entity_names),
 
                         Distance =
                             (double)row.distance
@@ -313,6 +439,9 @@ LIMIT @TopK;
                     NormalizeQuery(query)
                         .ToLowerInvariant();
 
+                var searchTerms =
+                    BuildSearchTerms(normalizedQuery);
+
                 Console.WriteLine(
                     $"Normalized Metadata Query: {normalizedQuery}");
 
@@ -325,10 +454,37 @@ LIMIT @TopK;
 
                 var entitySql = @"
 SELECT
+    e.document_id,
+    d.department,
+    d.category,
+    d.title,
     e.entity_name,
     e.entity_type
 FROM entities e
+INNER JOIN documents d
+    ON d.document_id = e.document_id
 WHERE e.normalized_name ILIKE @Query
+OR LOWER(COALESCE(e.aliases::text, '')) LIKE LOWER(@Query)
+OR LOWER(COALESCE(d.department, '')) LIKE LOWER(@Query)
+OR LOWER(COALESCE(d.category, '')) LIKE LOWER(@Query)
+OR LOWER(COALESCE(d.title, '')) LIKE LOWER(@Query)
+OR LOWER(COALESCE(d.tags::text, '')) LIKE LOWER(@Query)
+OR EXISTS (
+    SELECT 1
+    FROM unnest(@SearchTerms::text[]) AS term
+    WHERE LOWER(
+        CONCAT_WS(
+            ' ',
+            e.entity_name,
+            e.entity_type,
+            e.aliases::text,
+            d.department,
+            d.category,
+            d.title,
+            d.tags::text
+        )
+    ) LIKE '%' || LOWER(term) || '%'
+)
 LIMIT 10;
 ";
 
@@ -338,7 +494,8 @@ LIMIT 10;
                         new
                         {
                             Query =
-                                $"%{normalizedQuery}%"
+                                $"%{normalizedQuery}%",
+                            SearchTerms = searchTerms
                         });
 
                 foreach (var row in entityResults)
@@ -346,6 +503,18 @@ LIMIT 10;
                     results.Add(
                         new MetadataSearchResult
                         {
+                            DocumentId =
+                                row.document_id,
+
+                            Department =
+                                row.department ?? string.Empty,
+
+                            Category =
+                                row.category ?? string.Empty,
+
+                            DocumentTitle =
+                                row.title ?? string.Empty,
+
                             EntityName =
                                 row.entity_name,
 
@@ -363,6 +532,10 @@ LIMIT 10;
 
                 var relationshipSql = @"
 SELECT
+    source.document_id,
+    d.department,
+    d.category,
+    d.title,
     source.entity_name AS source_name,
     rel.relationship_type,
     target.entity_name AS target_name
@@ -371,10 +544,34 @@ INNER JOIN entities source
     ON source.entity_id = rel.source_entity_id
 INNER JOIN entities target
     ON target.entity_id = rel.target_entity_id
+INNER JOIN documents d
+    ON d.document_id = source.document_id
 WHERE
     source.normalized_name ILIKE @Query
 OR
     target.normalized_name ILIKE @Query
+OR
+    LOWER(COALESCE(source.aliases::text, '')) LIKE LOWER(@Query)
+OR
+    LOWER(COALESCE(target.aliases::text, '')) LIKE LOWER(@Query)
+OR
+    EXISTS (
+        SELECT 1
+        FROM unnest(@SearchTerms::text[]) AS term
+        WHERE LOWER(
+            CONCAT_WS(
+                ' ',
+                source.entity_name,
+                source.aliases::text,
+                target.entity_name,
+                target.aliases::text,
+                rel.relationship_type,
+                d.department,
+                d.category,
+                d.title
+            )
+        ) LIKE '%' || LOWER(term) || '%'
+    )
 LIMIT 10;
 ";
 
@@ -384,7 +581,8 @@ LIMIT 10;
                         new
                         {
                             Query =
-                                $"%{normalizedQuery}%"
+                                $"%{normalizedQuery}%",
+                            SearchTerms = searchTerms
                         });
 
                 foreach (var row in relationshipResults)
@@ -392,6 +590,18 @@ LIMIT 10;
                     results.Add(
                         new MetadataSearchResult
                         {
+                            DocumentId =
+                                row.document_id,
+
+                            Department =
+                                row.department ?? string.Empty,
+
+                            Category =
+                                row.category ?? string.Empty,
+
+                            DocumentTitle =
+                                row.title ?? string.Empty,
+
                             EntityName =
                                 row.source_name,
 
@@ -481,6 +691,108 @@ LIMIT 10;
                 " ");
 
             return query.Trim();
+        }
+
+        private string[] BuildSearchTerms(string normalizedQuery)
+        {
+            var stopWords =
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "a",
+                    "an",
+                    "and",
+                    "are",
+                    "can",
+                    "do",
+                    "for",
+                    "how",
+                    "i",
+                    "in",
+                    "is",
+                    "of",
+                    "on",
+                    "please",
+                    "take",
+                    "tell",
+                    "the",
+                    "to",
+                    "what",
+                    "when",
+                    "where",
+                    "who"
+                };
+
+            var terms =
+                Regex.Split(normalizedQuery, @"\s+")
+                    .Where(x => x.Length > 2)
+                    .Where(x => !stopWords.Contains(x))
+                    .Select(Singularize)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+            if (!terms.Any() && !string.IsNullOrWhiteSpace(normalizedQuery))
+            {
+                terms.Add(normalizedQuery);
+            }
+
+            return terms.ToArray();
+        }
+
+        private string Singularize(string term)
+        {
+            if (term.EndsWith("ies", StringComparison.OrdinalIgnoreCase)
+                && term.Length > 4)
+            {
+                return term[..^3] + "y";
+            }
+
+            if (term.EndsWith("es", StringComparison.OrdinalIgnoreCase)
+                && term.Length > 4)
+            {
+                return term[..^2];
+            }
+
+            if (term.EndsWith("s", StringComparison.OrdinalIgnoreCase)
+                && term.Length > 3)
+            {
+                return term[..^1];
+            }
+
+            return term;
+        }
+
+        private List<string> ReadStringList(dynamic value)
+        {
+            if (value == null)
+            {
+                return new List<string>();
+            }
+
+            if (value is string[] array)
+            {
+                return array.ToList();
+            }
+
+            if (value is IEnumerable<string> strings)
+            {
+                return strings.ToList();
+            }
+
+            if (value is string text)
+            {
+                try
+                {
+                    return JsonSerializer.Deserialize<List<string>>(text)
+                        ?? new List<string>();
+                }
+                catch
+                {
+                    return new List<string> { text };
+                }
+            }
+
+            return new List<string>();
         }
     }
 }

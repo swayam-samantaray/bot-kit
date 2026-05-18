@@ -1,46 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\stash\\bot-kit\\",
+  "WorkspaceRootPath": "D:\\vs2026repo\\bot-kit\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\infrastructure\\ollama\\ollamaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:infrastructure\\ollama\\ollamaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\application\\bots\\promptbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:application\\bots\\promptbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\application\\services\\botfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:application\\services\\botfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\application\\bots\\helpbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:application\\bots\\helpbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\infrastructure\\vectordb\\postgresvectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\infrastructure\\vectordb\\postgresvectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:infrastructure\\vectordb\\postgresvectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\infrastructure\\knowledge\\entityextractionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\infrastructure\\knowledge\\entityextractionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:infrastructure\\knowledge\\entityextractionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\application\\interfaces\\ivectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\application\\interfaces\\ivectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:application\\interfaces\\ivectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\domain\\entities\\metadatasearchresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\application\\bots\\helpbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:application\\bots\\helpbot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\domain\\entities\\metadatasearchresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:domain\\entities\\metadatasearchresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\stash\\bot-kit\\infrastructure\\documentprocessing\\documentingestionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\infrastructure\\documentprocessing\\documentingestionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:infrastructure\\documentprocessing\\documentingestionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -55,75 +43,35 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OllamaService.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Infrastructure\\Ollama\\OllamaService.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Ollama\\OllamaService.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Infrastructure\\Ollama\\OllamaService.cs",
-              "RelativeToolTip": "Infrastructure\\Ollama\\OllamaService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T18:27:40.919Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BotFactory.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Application\\Services\\BotFactory.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\BotFactory.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Application\\Services\\BotFactory.cs",
-              "RelativeToolTip": "Application\\Services\\BotFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T18:25:13.723Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PromptBot.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Application\\Bots\\PromptBot.cs",
-              "RelativeDocumentMoniker": "Application\\Bots\\PromptBot.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Application\\Bots\\PromptBot.cs",
-              "RelativeToolTip": "Application\\Bots\\PromptBot.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAAwA8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T18:23:54.612Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HelpBot.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Application\\Bots\\HelpBot.cs",
-              "RelativeDocumentMoniker": "Application\\Bots\\HelpBot.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Application\\Bots\\HelpBot.cs",
-              "RelativeToolTip": "Application\\Bots\\HelpBot.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAuwN4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T10:12:16.085Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "PostgresVectorService.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\VectorDB\\PostgresVectorService.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
               "RelativeToolTip": "Infrastructure\\VectorDB\\PostgresVectorService.cs",
-              "ViewState": "AgIAAJsBAAAAAAAAAAAQwOMBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAANABAAAAAAAAAAAQwB0CAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-09T10:11:39.063Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
+              "Title": "HelpBot.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Application\\Bots\\HelpBot.cs",
+              "RelativeDocumentMoniker": "Application\\Bots\\HelpBot.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Application\\Bots\\HelpBot.cs",
+              "RelativeToolTip": "Application\\Bots\\HelpBot.cs",
+              "ViewState": "AgIAAL4AAAAAAAAAAAAAwN4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:12:16.085Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "IVectorService.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Application\\Interfaces\\IVectorService.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Application\\Interfaces\\IVectorService.cs",
               "RelativeDocumentMoniker": "Application\\Interfaces\\IVectorService.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Application\\Interfaces\\IVectorService.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Application\\Interfaces\\IVectorService.cs",
               "RelativeToolTip": "Application\\Interfaces\\IVectorService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -131,11 +79,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "MetadataSearchResult.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Domain\\Entities\\MetadataSearchResult.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Domain\\Entities\\MetadataSearchResult.cs",
               "RelativeDocumentMoniker": "Domain\\Entities\\MetadataSearchResult.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Domain\\Entities\\MetadataSearchResult.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Domain\\Entities\\MetadataSearchResult.cs",
               "RelativeToolTip": "Domain\\Entities\\MetadataSearchResult.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -143,11 +91,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "EntityExtractionService.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Infrastructure\\Knowledge\\EntityExtractionService.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\Knowledge\\EntityExtractionService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Knowledge\\EntityExtractionService.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Infrastructure\\Knowledge\\EntityExtractionService.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Infrastructure\\Knowledge\\EntityExtractionService.cs",
               "RelativeToolTip": "Infrastructure\\Knowledge\\EntityExtractionService.cs",
               "ViewState": "AgIAAGEAAAAAAAAAAAAAAIAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -155,11 +103,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "DocumentIngestionService.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
               "RelativeToolTip": "Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
               "ViewState": "AgIAAN8AAAAAAAAAAAAAwP8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -167,16 +115,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\stash\\bot-kit\\Program.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\stash\\bot-kit\\Program.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAAACMAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAAAGgAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T09:59:25.426Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T09:59:25.426Z"
             }
           ]
         }

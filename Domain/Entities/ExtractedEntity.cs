@@ -11,5 +11,9 @@
         public string EntityType { get; set; } = string.Empty;
 
         public string NormalizedName { get; set; } = string.Empty;
+
+        public List<string> Aliases { get; set; } = new();
+
+        public string MetadataJson { get; set; } = "{}";
     }
 }
