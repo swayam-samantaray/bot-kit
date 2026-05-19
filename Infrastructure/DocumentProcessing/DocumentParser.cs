@@ -178,6 +178,8 @@ namespace bot_kit.Infrastructure.DocumentProcessing
                 relationship.Target = NormalizeText(relationship.Target);
             }
 
+            document.Content = NormalizeText(document.Content);
+
             foreach (var section in document.Sections)
             {
                 section.Heading = NormalizeText(section.Heading);

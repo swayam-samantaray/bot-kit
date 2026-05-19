@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\vs2026repo\\bot-kit\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\api\\controllers\\botcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:api\\controllers\\botcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|d:\\vs2026repo\\bot-kit\\infrastructure\\vectordb\\postgresvectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E005A0BE-198D-549C-9701-B5E3C9D68C9E}|bot-kit.csproj|solutionrelative:infrastructure\\vectordb\\postgresvectorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -43,19 +51,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\API\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AdminController.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\API\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "API\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:01:28.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BotController.cs",
+              "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\API\\Controllers\\BotController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BotController.cs",
+              "ToolTip": "D:\\vs2026repo\\bot-kit\\API\\Controllers\\BotController.cs",
+              "RelativeToolTip": "API\\Controllers\\BotController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:01:27.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PostgresVectorService.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\VectorDB\\PostgresVectorService.cs",
               "ToolTip": "D:\\vs2026repo\\bot-kit\\Infrastructure\\VectorDB\\PostgresVectorService.cs",
               "RelativeToolTip": "Infrastructure\\VectorDB\\PostgresVectorService.cs",
-              "ViewState": "AgIAANABAAAAAAAAAAAQwB0CAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAPUBAAAAAAAAAAAgwB0CAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-09T10:11:39.063Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "HelpBot.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Application\\Bots\\HelpBot.cs",
               "RelativeDocumentMoniker": "Application\\Bots\\HelpBot.cs",
@@ -67,7 +101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "IVectorService.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Application\\Interfaces\\IVectorService.cs",
               "RelativeDocumentMoniker": "Application\\Interfaces\\IVectorService.cs",
@@ -79,7 +113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "MetadataSearchResult.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Domain\\Entities\\MetadataSearchResult.cs",
               "RelativeDocumentMoniker": "Domain\\Entities\\MetadataSearchResult.cs",
@@ -91,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "EntityExtractionService.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\Knowledge\\EntityExtractionService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Knowledge\\EntityExtractionService.cs",
@@ -103,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "DocumentIngestionService.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\DocumentProcessing\\DocumentIngestionService.cs",
@@ -115,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\vs2026repo\\bot-kit\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",

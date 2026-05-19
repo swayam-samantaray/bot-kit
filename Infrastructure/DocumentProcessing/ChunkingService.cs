@@ -65,6 +65,27 @@ namespace bot_kit.Infrastructure.DocumentProcessing
         {
             var chunks = new List<DocumentChunk>();
 
+            if (!string.IsNullOrWhiteSpace(document.Content))
+            {
+                var contentWithHeader =
+                    BuildDocumentText(document);
+
+                var documentChunks =
+                    Chunk(contentWithHeader, documentName);
+
+                foreach (var chunk in documentChunks)
+                {
+                    ApplyDocumentMetadata(
+                        chunk,
+                        document,
+                        string.Empty,
+                        document.Tags,
+                        document.Entities.Select(x => x.Name).ToList());
+                }
+
+                return documentChunks;
+            }
+
             if (document.Sections.Count == 0)
             {
                 return Chunk(document.ToSearchableText(), documentName)
@@ -239,6 +260,39 @@ namespace bot_kit.Infrastructure.DocumentProcessing
             }
 
             return string.Join("\n", header) + "\n\n" + section.Content;
+        }
+
+        private string BuildDocumentText(
+            StructuredKnowledgeDocument document)
+        {
+            var header = new List<string>
+            {
+                $"Department: {document.Department}",
+                $"Category: {document.Category}",
+                $"Document: {document.Title}"
+            };
+
+            if (document.Tags.Any())
+            {
+                header.Add($"Tags: {string.Join(", ", document.Tags)}");
+            }
+
+            if (document.Entities.Any())
+            {
+                header.Add($"Entities: {string.Join(", ", document.Entities.Select(x => x.Name))}");
+            }
+
+            if (document.Relationships.Any())
+            {
+                header.Add(
+                    "Relationships: "
+                    + string.Join(
+                        "; ",
+                        document.Relationships.Select(x =>
+                            $"{x.Source} {x.Type} {x.Target}")));
+            }
+
+            return string.Join("\n", header) + "\n\n" + document.Content;
         }
 
         private void ApplyDocumentMetadata(

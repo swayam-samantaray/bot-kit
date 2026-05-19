@@ -22,6 +22,8 @@ namespace bot_kit.Domain.Entities
 
         public List<StructuredRelationship> Relationships { get; set; } = new();
 
+        public string Content { get; set; } = string.Empty;
+
         public List<StructuredSection> Sections { get; set; } = new();
 
         public string ToSearchableText()
@@ -46,9 +48,16 @@ namespace bot_kit.Domain.Entities
                 Relationships.Select(r =>
                     $"Relationship: {r.Source} {r.Type} {r.Target}"));
 
-            parts.AddRange(
-                Sections.Select(s =>
-                    $"Section: {s.Heading}\n{s.Content}"));
+            if (!string.IsNullOrWhiteSpace(Content))
+            {
+                parts.Add(Content);
+            }
+            else
+            {
+                parts.AddRange(
+                    Sections.Select(s =>
+                        $"Section: {s.Heading}\n{s.Content}"));
+            }
 
             return string.Join(
                 "\n\n",

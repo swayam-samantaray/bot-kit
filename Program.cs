@@ -71,6 +71,8 @@ builder.Services.Configure<KnowledgeBaseSettings>(
 
 builder.Services.AddScoped<IDocumentIngestionService, DocumentIngestionService>();
 
+builder.Services.AddScoped<IKnowledgeJsonPreparationService, KnowledgeJsonPreparationService>();
+
 builder.Services.AddScoped<DocumentParser>();
 
 builder.Services.AddScoped<IChunkingService, ChunkingService>();

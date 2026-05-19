@@ -47,12 +47,11 @@ namespace bot_kit.Infrastructure.DocumentProcessing
             }
 
             var files =
-                Directory.GetFiles(
+                SelectFilesForIngestion(
+                    Directory.GetFiles(
                     _settings.DirectoryPath,
                     "*.*",
-                    SearchOption.AllDirectories)
-                .Where(IsSupportedFile)
-                .ToList();
+                    SearchOption.AllDirectories));
 
             await using var connection =
                 await _dataSource.OpenConnectionAsync(
@@ -76,7 +75,7 @@ namespace bot_kit.Infrastructure.DocumentProcessing
                     StructuredKnowledgeDocument? structuredDocument = null;
                     string content;
 
-                    if (extension == ".json")
+                    if (IsPreparedKnowledgeJson(file))
                     {
                         structuredDocument =
                             await _parser.ParseStructuredJsonAsync(
@@ -342,7 +341,62 @@ VALUES
             var extension =
                 Path.GetExtension(file).ToLowerInvariant();
 
-            return extension is ".json" or ".txt" or ".pdf" or ".docx";
+            return IsPreparedKnowledgeJson(file)
+                   || extension is ".txt" or ".pdf" or ".docx";
+        }
+
+        private List<string> SelectFilesForIngestion(
+            IEnumerable<string> files)
+        {
+            var fileList =
+                files.ToList();
+
+            var preparedSourcePaths =
+                fileList
+                    .Where(IsPreparedKnowledgeJson)
+                    .Select(GetRawPathForPreparedJson)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .Select(Path.GetFullPath)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            return fileList
+                .Where(IsSupportedFile)
+                .Where(file =>
+                    IsPreparedKnowledgeJson(file)
+                    || !preparedSourcePaths.Contains(Path.GetFullPath(file)))
+                .ToList();
+        }
+
+        private bool IsPreparedKnowledgeJson(string file)
+        {
+            return file.EndsWith(
+                ".kb.json",
+                StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string GetRawPathForPreparedJson(string preparedJsonPath)
+        {
+            var directory =
+                Path.GetDirectoryName(preparedJsonPath) ?? string.Empty;
+
+            var baseName =
+                Path.GetFileName(preparedJsonPath);
+
+            if (!baseName.EndsWith(".kb.json", StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Empty;
+            }
+
+            var rawBaseName =
+                baseName[..^".kb.json".Length];
+
+            var candidateExtensions =
+                new[] { ".pdf", ".docx", ".txt" };
+
+            return candidateExtensions
+                .Select(extension => Path.Combine(directory, rawBaseName + extension))
+                .FirstOrDefault(File.Exists)
+                ?? string.Empty;
         }
 
         private string GetDepartmentFromPath(string filePath)

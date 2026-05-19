@@ -10,9 +10,14 @@ namespace bot_kit.API.Controllers
     {
         private readonly IDocumentIngestionService _ingestionService;
 
-        public AdminController(IDocumentIngestionService ingestionService)
+        private readonly IKnowledgeJsonPreparationService _knowledgeJsonPreparationService;
+
+        public AdminController(
+            IDocumentIngestionService ingestionService,
+            IKnowledgeJsonPreparationService knowledgeJsonPreparationService)
         {
             _ingestionService = ingestionService;
+            _knowledgeJsonPreparationService = knowledgeJsonPreparationService;
         }
 
         [HttpPost("reindex")]
@@ -21,6 +26,19 @@ namespace bot_kit.API.Controllers
             await _ingestionService.IngestAsync(cancellationToken);
 
             return Ok("Reindex completed.");
+        }
+
+        [HttpPost("prepare-knowledge-json")]
+        public async Task<IActionResult> PrepareKnowledgeJson(
+            [FromQuery] bool overwrite,
+            CancellationToken cancellationToken)
+        {
+            var result =
+                await _knowledgeJsonPreparationService.PrepareAsync(
+                    overwrite,
+                    cancellationToken);
+
+            return Ok(result);
         }
     }
 }

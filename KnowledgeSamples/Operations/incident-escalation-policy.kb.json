@@ -1,0 +1,56 @@
+{
+  "department": "Operations",
+  "category": "SOP",
+  "title": "Incident Escalation Policy",
+  "version": "1.0",
+  "effectiveDate": "2026-01-01",
+  "tags": ["incident", "escalation", "operations", "sla", "p1"],
+  "metadata": {
+    "owner": "Operations Control",
+    "severityModel": "P1-P4",
+    "sourceFile": "incident-escalation-policy.docx"
+  },
+  "entities": [
+    {
+      "name": "Operations Analyst",
+      "type": "ROLE",
+      "aliases": ["ops analyst"]
+    },
+    {
+      "name": "Operations Manager",
+      "type": "ROLE",
+      "aliases": ["ops manager"]
+    },
+    {
+      "name": "P1 Incident",
+      "type": "INCIDENT_SEVERITY",
+      "aliases": ["priority one", "critical incident"]
+    },
+    {
+      "name": "Service Desk",
+      "type": "TEAM",
+      "aliases": ["help desk"]
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Operations Analyst",
+      "type": "ESCALATES",
+      "target": "P1 Incident",
+      "confidenceScore": 1
+    },
+    {
+      "source": "Operations Manager",
+      "type": "OWNS_RESOLUTION_FOR",
+      "target": "P1 Incident",
+      "confidenceScore": 1
+    },
+    {
+      "source": "Service Desk",
+      "type": "LOGS",
+      "target": "P1 Incident",
+      "confidenceScore": 0.9
+    }
+  ],
+  "content": "A P1 incident must be escalated by the operations analyst within 15 minutes of detection. The operations manager owns resolution coordination and must provide status updates every 30 minutes until service is restored. The service desk logs every P1 incident with the affected service, start time, customer impact, and current workaround. The ticket must remain open until the operations manager confirms closure."
+}
